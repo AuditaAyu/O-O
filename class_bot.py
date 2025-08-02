@@ -161,17 +161,41 @@ async def local_drive(ctx):
       await ctx.send(f"Files in the files folder:\n{file_list}")
     except FileNotFoundError:
       await ctx.send("Folder not found.") 
-#show local file
-@bot.command()
-async def showfile(ctx, filename):
-  """Sends a file as an attachment."""
-  folder_path = "./files/"
-  file_path = os.path.join(folder_path, filename)
 
-  try:
-    await ctx.send(file=discord.File(file_path))
-  except FileNotFoundError:
-    await ctx.send(f"File '{filename}' not found.")
+#show local file
+#@bot.command()
+#async def polus(ctx, filename):
+#  """Sends a file as an attachment."""
+#  folder_path = "./files/"
+#  file_path = os.path.join(folder_path, filename)
+
+ ## try:
+ #   await ctx.send(file=discord.File(file_path))
+#  except FileNotFoundError:
+ #   await ctx.send(f"File '{filename}' not found.")
+
+@bot.command()
+async def polusi(ctx):
+    """Mengirimkan gambar acak tentang polusi dari folder ./files/"""
+
+    folder_path = "./files/"
+
+    # Ambil semua file jpg/jpeg/png di folder
+    files = [f for f in os.listdir(folder_path)
+             if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+
+    if not files:
+        await ctx.send("Tidak ada gambar di folder ./files/")
+        return
+
+    # Pilih random index
+    index = random.randint(0, len(files)-1)
+    filename = files[index]
+    file_path = os.path.join(folder_path, filename)
+
+    # Kirim gambar
+    await ctx.send(f"**Poster Edukasi:** {filename}", file=discord.File(file_path))
+
 # upload file to local computer
 @bot.command()
 async def simpan(ctx):
@@ -183,4 +207,3 @@ async def simpan(ctx):
             await ctx.send(f"Menyimpan {file_name}")
     else:
         await ctx.send("Anda lupa mengunggah :(")
-
